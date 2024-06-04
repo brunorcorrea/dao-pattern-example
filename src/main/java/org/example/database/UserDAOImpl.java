@@ -2,6 +2,7 @@ package org.example.database;
 
 import org.example.entity.User;
 
+import javax.xml.crypto.Data;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +11,8 @@ public class UserDAOImpl implements UserDAO {
 
     private Connection connection;
 
-    public UserDAOImpl(Connection connection) {
-        this.connection = connection;
+    public UserDAOImpl() throws SQLException {
+        this.connection = DatabaseConnection.getConnection();
     }
 
     @Override

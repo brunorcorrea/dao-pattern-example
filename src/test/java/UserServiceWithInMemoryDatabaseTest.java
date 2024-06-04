@@ -1,33 +1,14 @@
-import org.example.database.DatabaseConnection;
-import org.example.database.UserDAO;
-import org.example.database.UserDAOImpl;
+import org.example.database.UserDAOInMemory;
 import org.example.entity.User;
 import org.example.service.UserService;
-import org.junit.*;
-import java.sql.Connection;
-import java.sql.SQLException;
+import org.junit.Assert;
+import org.junit.Test;
+
 import java.util.List;
 
-public class UserServiceTest {
+public class UserServiceWithInMemoryDatabaseTest {
 
-    private static Connection connection;
-    private static UserService userService;
-
-    @BeforeClass
-    public static void setUpBeforeClass() throws SQLException {
-        connection = DatabaseConnection.getConnection();
-        connection.setAutoCommit(false); // Desativar autocommit
-
-        UserDAO userDAO = new UserDAOImpl();
-        userService = new UserService(userDAO);
-    }
-
-    @AfterClass
-    public static void tearDownAfterClass() throws SQLException {
-        if (connection != null && !connection.isClosed()) {
-            connection.close();
-        }
-    }
+    private static final UserService userService = new UserService(new UserDAOInMemory());
 
     @Test
     public void testCreateUser() {

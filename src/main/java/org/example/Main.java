@@ -3,6 +3,7 @@ package org.example;
 import org.example.database.DatabaseConnection;
 import org.example.database.UserDAO;
 import org.example.database.UserDAOImpl;
+import org.example.database.UserDAOInMemory;
 import org.example.entity.User;
 import org.example.service.UserService;
 
@@ -13,8 +14,10 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
-        try (Connection connection = DatabaseConnection.getConnection()) {
-            UserDAO userDAO = new UserDAOImpl(connection);
+
+        try {
+
+            UserDAO userDAO = new UserDAOInMemory();
             UserService userService = new UserService(userDAO);
 
             // Cria um novo usuário
@@ -36,7 +39,7 @@ public class Main {
             // Deleta um usuário
             userService.deleteUser(1);
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
