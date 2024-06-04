@@ -11,8 +11,8 @@ public class UserDAOImpl implements UserDAO {
 
     private Connection connection;
 
-    public UserDAOImpl() throws SQLException {
-        this.connection = DatabaseConnection.getConnection();
+    public UserDAOImpl(Connection connection) {
+        this.connection = connection;
     }
 
     @Override
@@ -24,6 +24,7 @@ public class UserDAOImpl implements UserDAO {
             stmt.setString(3, user.getEmail());
             stmt.executeUpdate();
         } catch (SQLException e) {
+            System.out.println("Error in addUser method");
             e.printStackTrace();
         }
     }
@@ -38,6 +39,7 @@ public class UserDAOImpl implements UserDAO {
                 return new User(rs.getInt("id"), rs.getString("name"), rs.getString("email"));
             }
         } catch (SQLException e) {
+            System.out.println("Error in getUserById method");
             e.printStackTrace();
         }
         return null;
@@ -53,6 +55,7 @@ public class UserDAOImpl implements UserDAO {
                 users.add(new User(rs.getInt("id"), rs.getString("name"), rs.getString("email")));
             }
         } catch (SQLException e) {
+            System.out.println("Error in getAllUsers method");
             e.printStackTrace();
         }
         return users;
@@ -67,6 +70,7 @@ public class UserDAOImpl implements UserDAO {
             stmt.setInt(3, user.getId());
             stmt.executeUpdate();
         } catch (SQLException e) {
+            System.out.println("Error in updateUser method");
             e.printStackTrace();
         }
     }
@@ -78,6 +82,7 @@ public class UserDAOImpl implements UserDAO {
             stmt.setInt(1, id);
             stmt.executeUpdate();
         } catch (SQLException e) {
+            System.out.println("Error in deleteUser method");
             e.printStackTrace();
         }
     }
