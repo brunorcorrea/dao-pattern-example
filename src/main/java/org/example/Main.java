@@ -3,21 +3,19 @@ package org.example;
 import org.example.database.DatabaseConnection;
 import org.example.database.UserDAO;
 import org.example.database.UserDAOImpl;
-import org.example.database.UserDAOInMemory;
 import org.example.entity.User;
 import org.example.service.UserService;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        try {
+        try (Connection connection = DatabaseConnection.getConnection()) {
 
-            UserDAO userDAO = new UserDAOImpl();
+            UserDAO userDAO = new UserDAOImpl(connection);
             UserService userService = new UserService(userDAO);
 
             User newUser = new User(1, "John Doe", "john.doe@example.com");

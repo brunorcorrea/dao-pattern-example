@@ -16,9 +16,7 @@ public class UserServiceTest {
     @BeforeClass
     public static void setUpBeforeClass() throws SQLException {
         connection = DatabaseConnection.getConnection();
-        connection.setAutoCommit(false); // Desativar autocommit
-
-        UserDAO userDAO = new UserDAOImpl();
+        UserDAO userDAO = new UserDAOImpl(connection);
         userService = new UserService(userDAO);
     }
 
@@ -27,6 +25,16 @@ public class UserServiceTest {
         if (connection != null && !connection.isClosed()) {
             connection.close();
         }
+    }
+
+    @Before
+    public void setUp() throws SQLException {
+        connection.setAutoCommit(false);
+    }
+
+    @After
+    public void tearDown() throws SQLException {
+        connection.rollback();
     }
 
     @Test
